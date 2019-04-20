@@ -15,4 +15,8 @@ Swap any two adjacent gems to try to match three gems in a row. The matched gems
 4) Game time decreases by 1 second per second.
 5) Game is over when time is run out.
 
+## Discussion
+
+Write things that confuse or inspire you.
+
 ## Feel free to add what you think is needed
