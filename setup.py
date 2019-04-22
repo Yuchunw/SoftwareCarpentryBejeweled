@@ -1,3 +1,5 @@
+# This code is used for setting up the game and load the background with the image
+# Make sure the background file name matchs the code. 
 
 # -*- coding: utf-8 -*-
 
