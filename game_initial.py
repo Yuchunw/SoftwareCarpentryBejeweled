@@ -1,6 +1,9 @@
-# Bejewled-like Game
-## Initialization
+# This code is for defining function in our game.
+
 ## INCOMPLETED!!!!!!!!!!!!!!
+
+# -*- coding: utf-8 -*-
+
 gems = {0: 'red', 1: 'green', 2: 'blue' , 3:'yellow'}
 
 class GemGame:
