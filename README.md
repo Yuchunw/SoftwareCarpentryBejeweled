@@ -22,5 +22,6 @@ Write things that confuse or inspire you.
 1) Might need sounds to this game.
 2) Gifs for three gems in line when disappearing
 3) Name for our game, Little Monsters? Happy Monsters? etc..
+4) Are we going to use python 2 or 3?
 
 ## Feel free to add what you think is needed
