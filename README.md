@@ -19,4 +19,8 @@ Swap any two adjacent gems to try to match three gems in a row. The matched gems
 
 Write things that confuse or inspire you.
 
+1) Might need sounds to this game.
+2) Gifs for three gems in line when disappearing
+3) Name for our game, Little Monsters? Happy Monsters? etc..
+
 ## Feel free to add what you think is needed
