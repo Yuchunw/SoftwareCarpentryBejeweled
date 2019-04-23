@@ -19,17 +19,20 @@ clock = pygame.time.Clock()
 # Load the background image
 background_image = pygame.image.load('background.png').convert()
 
-# Draw board on screen
+# Draw board on screen (Incompeted)
 boardwidth = 480
-boardheight = 476
+boardheight = 480
+black = (0, 0, 0)
 start_x = 23
 start_y = 218
-startpos = (start_x, start_y)
-endpos = (start_x + boardwidth, start_y + boardheight)
+end_x = start_x + boardwidth
+end_y = start_y + boardheight
 
-Black = (0, 0, 0)
-pygame.draw.line(screen, Black, startpos, endpos, width = 1)
-
+for i in range(start_x, end_x + 1, 60):
+	pygame.draw.line(screen, black, [i, start_y], [i, end_y])
+for j in range(start_y, end_y + 1, 60):
+	pygame.draw.line(screen, black, [start_x, j], [end_x, j])
+	
 # Loop until the user clicks the close button
 done = False
 
