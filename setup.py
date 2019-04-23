@@ -19,7 +19,7 @@ clock = pygame.time.Clock()
 # Load the background image
 background_image = pygame.image.load('background.png').convert()
 
-# Draw board on screen (Incompeted)
+# Parameters for Draw board on screen
 boardwidth = 480
 boardheight = 480
 black = (0, 0, 0)
@@ -27,11 +27,6 @@ start_x = 23
 start_y = 218
 end_x = start_x + boardwidth
 end_y = start_y + boardheight
-
-for i in range(start_x, end_x + 1, 60):
-	pygame.draw.line(screen, black, [i, start_y], [i, end_y])
-for j in range(start_y, end_y + 1, 60):
-	pygame.draw.line(screen, black, [start_x, j], [end_x, j])
 	
 # Loop until the user clicks the close button
 done = False
@@ -44,6 +39,12 @@ while not done:
 
 	# Blit background image
 	screen.blit(background_image, (0, 0))
+	
+	# Draw the grid
+	for i in range(start_x, end_x + 1, 60):
+		pygame.draw.line(screen, black, [i, start_y], [i, end_y])
+	for j in range(start_y, end_y + 1, 60):
+		pygame.draw.line(screen, black, [start_x, j], [end_x, j])
 
 	# Update the screen 
 	pygame.display.flip()
