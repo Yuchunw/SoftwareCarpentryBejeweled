@@ -19,6 +19,17 @@ clock = pygame.time.Clock()
 # Load the background image
 background_image = pygame.image.load('background.png').convert()
 
+# Draw board on screen
+boardwidth = 480
+boardheight = 476
+start_x = 23
+start_y = 218
+startpos = (start_x, start_y)
+endpos = (start_x + boardwidth, start_y + boardheight)
+
+Black = (0, 0, 0)
+pygame.draw.line(screen, Black, startpos, endpos, width = 1)
+
 # Loop until the user clicks the close button
 done = False
 
