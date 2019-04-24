@@ -27,7 +27,9 @@ start_x = 23
 start_y = 218
 end_x = start_x + boardwidth
 end_y = start_y + boardheight
-	
+columns = 8
+rows = 8
+
 # Loop until the user clicks the close button
 done = False
 
