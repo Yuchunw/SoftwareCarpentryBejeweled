@@ -33,17 +33,17 @@ class Game:
 		self.game_board = None
 		self.start_coords = set()
 
-	def precheck(self):
-		rotated_board = list(map(list, zip(* self.board))):
-		for y in range(len(self.board)):
-			sy = ''.join([numbers_to_letters[x] for x in self.board[y]])
-			sx = ''.join([numbers_to_letters[x] for x in rotated_board[y]])
-			for formula in formulas.keys():
-				if formula in sx:
-					self.board[sx.find(formula)][y] = random.randint(0, 1)
+# 	def precheck(self):
+# 		rotated_board = list(map(list, zip(* self.board))):
+# 		for y in range(len(self.board)):
+# 			sy = ''.join([numbers_to_letters[x] for x in self.board[y]])
+# 			sx = ''.join([numbers_to_letters[x] for x in rotated_board[y]])
+# 			for formula in formulas.keys():
+# 				if formula in sx:
+# 					self.board[sx.find(formula)][y] = random.randint(0, 1)
 
-				elif formula in sy:
-					self.board[y][sy.find(formula)] = random.randint(0, 1)
+# 				elif formula in sy:
+# 					self.board[y][sy.find(formula)] = random.randint(0, 1)
 
 	def basic_score(self, gem_type):
 		if gem_type in self.gems:
