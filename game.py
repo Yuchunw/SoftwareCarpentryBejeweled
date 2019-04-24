@@ -14,8 +14,10 @@ class cell:
 	# Add properties of cell here!
 	def _init_(self, image):
 		self.offset = 0.0
-		self.cells = monsters
+		self.image = monsters
 
+	 def tick(self, dt):
+	 	self.offset = max(0.0, self.offset - dt * refillspeed)
 
 class board:
 	# A rectangular board of cells
@@ -28,12 +30,22 @@ class board:
 		self.matches = []
 		self.refill = []
 
+	def generate(self):
+		for i in range(self.size):
+			self.board[i] = cell(random.choice(self.image))
+
+	def freeze(self):
+		# If the board is busy animating a refill or sth, refuse swaps
+		return self.refill or self.matches
+
 	def pos(self, i, j):
-		assert(0 <= i < self.width)
-		assert(0 <= j < self.height)
-		return j * self.width + i
+		# Index of cell positions
+		if (0 <= i < self.width) and (0 <= j < self.height):
+			return j * self.width + i
+		return None
 
 	def findmatch(self):
+		# Check matches
 		def lines():
 			for j in range (self.height):
 				yield range(j * self.width, (j + 1) * self.width)
@@ -42,7 +54,7 @@ class board:
 		def key(i):
 			return self.board[i].image
 		def matches():
-			for lin in lines():
+			for line in lines():
 				for _, group in itertools.groupby(line, key):
 					match = list(group)
 					if len(match) >= matchmin:
@@ -50,11 +62,13 @@ class board:
 		return list(matches())
 
 	def updatematch(self, image):
+		# Replace cells in match with other images
 		for match in self.matches:
 			for position in match:
 				self.board[position].image = image
 
 	def refill(self):
+		# Cells drop to fill the blank and creat neww cells if necessary
 		for i in range(self.width):
 			target = self.size - i -1
 			for pos in range(target, -1, -self.width):
@@ -67,7 +81,7 @@ class board:
 			offset = 1 + (target - pos) // self.width
 			for pos in range(target, -1, -self.width):
 				c = self.board[pos]
-				c.image = random.choice(self.cells)
+				c.image = random.choice(self.image)
 				c.offset = offset
 				yield c
 
@@ -95,6 +109,7 @@ class Game:
 # 				elif formula in sy:
 # 					self.board[y][sy.find(formula)] = random.randint(0, 1)
 
+	# def 
 	def basic_score(self, gem_type):
 		if gem_type in self.gems:
 			return 1

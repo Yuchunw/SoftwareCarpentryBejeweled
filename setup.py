@@ -6,7 +6,6 @@
 import pygame
 
 pygame.init()
-pygame.font.init()
 
 # Set up the screen
 size = (600, 750)
@@ -16,12 +15,9 @@ pygame.display.set_caption('Little Monsters')
 
 # To manage how fast the screen updates
 clock = pygame.time.Clock()
-counter, text = 20, '20'
-pygame.time.set_timer(pygame.USEREVENT, 1000)
-font = pygame.font.SysFont('Consolas', 30)
 
 # Load the background image
-background_image = pygame.image.load('Gameboard.png').convert()
+background_image = pygame.image.load('background.png').convert()
 
 # Parameters for Draw board on screen
 boardwidth = 480
@@ -33,6 +29,12 @@ end_x = start_x + boardwidth
 end_y = start_y + boardheight
 columns = 8
 rows = 8
+
+# Other parameters
+fps = 60
+fontsize = 30
+# offset = 5
+refillspeed = 10
 
 # Set up cells
 monster1 = pygame.image.load('Monster1.png').convert()
@@ -54,19 +56,9 @@ while not done:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			done = True
-		if event.type == pygame.USEREVENT:
-			counter -= 1
-			text = str(counter)
-		else:
-			surface = font.render(text, True, (255, 255 ,255))
-			screen.blit(surface, (50, 50))
-			pygame.display.flip()
-			clock.tick(60) / 1000 
-			continue
-		break
 
 	# Blit background image
-	screen.blit(background_image, (100, 100))
+	screen.blit(background_image, (0, 0))
 	
 	# Draw the grid
 	for i in range(start_x, end_x + 1, 60):
@@ -78,3 +70,4 @@ while not done:
 	pygame.display.flip()
 
 	# Limite to 60 frames per second
+	clock.tick(fps)
