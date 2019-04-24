@@ -97,35 +97,56 @@ class Game:
 		self.game_board = None
 		self.start_coords = set()
 
-# 	def precheck(self):
-# 		rotated_board = list(map(list, zip(* self.board))):
-# 		for y in range(len(self.board)):
-# 			sy = ''.join([numbers_to_letters[x] for x in self.board[y]])
-# 			sx = ''.join([numbers_to_letters[x] for x in rotated_board[y]])
-# 			for formula in formulas.keys():
-# 				if formula in sx:
-# 					self.board[sx.find(formula)][y] = random.randint(0, 1)
+	# def start(self):
+	# 	# Start a new game
+	# 	self.board.generate()
+	# 	self.score = 0.0
+	# 	self.swap_time = 20.0
 
-# 				elif formula in sy:
-# 					self.board[y][sy.find(formula)] = random.randint(0, 1)
+	# def quit(self):
+	# 	# Quit the game
+	# 	pygame.quit()
+	# 	sys.exit()
 
-	# def 
-	def basic_score(self, gem_type):
-		if gem_type in self.gems:
+	# def play(self):
+	# 	self.start()
+	# 	while True:
+	# 		self.draw()
+	# 		dt = min(self.clock.tick(fps) / 1000.0, 1.0 / fps)
+	# 		self.swap_time += dt
+	# 		for event in pygame.event.get()
+	# 			if event.type == pygame.QUIT:
+	# 				self.quit()
+
+	def play(self):
+		
+
+	def basic_score(self, cell_type):
+		if cell_type in self.gems:
 			return 1
 		return 0
 
-	def score(self, board, gems_coords):
+	def score(self, board, cells_coords):
 		score = 0
-		for coords in gems_coords:
-			gem_type = board[coords[0]][coords[1]]
-			score += self.basic_score(gem_type)
+		for coords in cells_coords:
+			cell_type = board[coords[0]][coords[1]]
+			score += self.basic_score(cell_type)
 
-		if len(gems_coords) == 4:
+		if len(cells_coords) == 4:
 			score += 5
-		if len(gems_coords) == 5:
+		if len(cells_coords) == 5:
 			score += 10
 		return score
+
+	def drawtime(self):
+		t = int(self.swap_time)
+		text = self.font.render('Mover Timer: {}:{:02}'.format(t / 60, t % 60), True, black)
+		self.display.blit(text, (offset, boardheight - fontsize))
+
+	def drawscore(self):
+		t = self.score + self.board.scire
+		text = self.font.render('Score: {}'.format(t), True, black)
+		self.display.blit(test, (offset, boardheight - fontsize))
 
 
 # To do list!!!
