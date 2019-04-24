@@ -39,6 +39,9 @@ monster5 = pygame.image.load('Monster5.png').convert()
 
 monsters = {0: 'monster1', 1: 'monster2', 2: 'monster3' , 3: 'monster4', 4: 'monster5'}
 
+# Rules for Game
+matchmin = 3
+
 # Loop until the user clicks the close button
 done = False
 
