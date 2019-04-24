@@ -30,6 +30,15 @@ end_y = start_y + boardheight
 columns = 8
 rows = 8
 
+# Set up cells
+monster1 = pygame.image.load('Monster1.png').convert()
+monster2 = pygame.image.load('Monster2.png').convert()
+monster3 = pygame.image.load('Monster3.png').convert()
+monster4 = pygame.image.load('Monster4.png').convert()
+monster5 = pygame.image.load('Monster5.png').convert()
+
+monsters = {0: 'monster1', 1: 'monster2', 2: 'monster3' , 3: 'monster4', 4: 'monster5'}
+
 # Loop until the user clicks the close button
 done = False
 
