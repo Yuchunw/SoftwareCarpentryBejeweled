@@ -27,8 +27,7 @@ Write things that confuse or inspire you.
 ## Feel free to add what you think is needed
 
 ## Sound Credit:
-https://www.pond5.com/sound-effects/1/bejeweled.html#1/2080/pricelt:0,bejeweled  
-Bejeweled sound effects  
+Bejeweled sound effects: purchased from audiojungle.net
 Background music: Circus Charlie BGM2 
 
 ## Image Credit:
