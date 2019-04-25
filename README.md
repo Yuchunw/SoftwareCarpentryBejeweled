@@ -25,3 +25,11 @@ Write things that confuse or inspire you.
 4) Are we going to use python 2 or 3?
 
 ## Feel free to add what you think is needed
+
+## Sound Credit:
+https://www.pond5.com/sound-effects/1/bejeweled.html#1/2080/pricelt:0,bejeweled
+Circus Charlie BGM2 
+
+## Image Credit:
+Cute monsters - Illustration by Sudowoodo
+Font: Cantika Cute Handwriting
