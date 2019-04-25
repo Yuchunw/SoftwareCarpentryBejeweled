@@ -1,4 +1,4 @@
-# Bejeweled Game
+# Little Monsters
 
 This is the final project for Software Carpentry. ( An interesting game name WANTED! :))
 
