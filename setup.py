@@ -18,8 +18,6 @@ clock = pygame.time.Clock()
 timer = 20
 dt = 0
 
-
-
 # Load the background image
 background_image = pygame.image.load('Gameboard.png').convert()
 
@@ -53,6 +51,12 @@ for i in range(1, 6):
 
 # Rules for Game
 matchmin = 3
+
+# Game sounds
+# 1 for background; 2 for swipe; 3 for combo; 4 for wrong; 5 for clock 
+sounds = []
+for i in range(1, 6):
+	sounds.append(pygame.mixer.music.load('Sound%s.wav' % i))
 
 # Loop until the user clicks the close button
 done = False
