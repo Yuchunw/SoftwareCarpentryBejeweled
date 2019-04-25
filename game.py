@@ -4,7 +4,7 @@
 
 # -*- coding: utf-8 -*-
 
-import pygame, random, time, sys, itertools, os
+import pygame, random, time, sys, itertools, os, copy
 from setup import *
 
 
@@ -16,7 +16,7 @@ class cell:
 		self.offset = 0.0
 		self.image = monsters
 
-	 def tick(self, dt):
+	def tick(self, dt):
 	 	self.offset = max(0.0, self.offset - dt * refillspeed)
 
 class board:
@@ -31,8 +31,10 @@ class board:
 		self.refill = []
 
 	def generate(self):
-		for i in range(self.size):
-			self.board[i] = cell(random.choice(self.image))
+		for i in range(boardwidth):
+			self.board[i] = cell(random.choice.monsters)
+			for j in range(boardheight):
+				self.board[j] = cell(random.choice.monsters)
 
 	def freeze(self):
 		# If the board is busy animating a refill or sth, refuse swaps
@@ -119,6 +121,7 @@ class Game:
 	# 				self.quit()
 
 	def play(self):
+		pass
 		
 
 	def basic_score(self, cell_type):
@@ -138,15 +141,59 @@ class Game:
 			score += 10
 		return score
 
-	def drawtime(self):
-		t = int(self.swap_time)
-		text = self.font.render('Mover Timer: {}:{:02}'.format(t / 60, t % 60), True, black)
-		self.display.blit(text, (offset, boardheight - fontsize))
 
 	def drawscore(self):
 		t = self.score + self.board.scire
 		text = self.font.render('Score: {}'.format(t), True, black)
-		self.display.blit(test, (offset, boardheight - fontsize))
+		sreen.blit(text, (20,20))
+
+	def fill_monsters(self, board):
+
+		for x in range(boardwidth):
+			column_monsters = []
+			for y in range(boardheight):
+				if self.board[x][y] = empty_space:
+					column_monsters.append(board[x][y])
+			self.board[x] = ([empty_space] * (boardheight - len(column_monsters))) + column_monsters
+
+
+	def get_gem(self, board, x, y):
+		if  x >= boardwidth and y >= boardheight:
+			return None
+		else:
+			return board[x][y]
+
+
+	def drop_slots(self, board):
+		'''
+		Finds the slots in each column to put the monsters
+		'''
+		board_copy = copy.deepcopy(self.board)
+		# then we need to put down all gems
+		dropSlots = []
+		for x in range(boardwidth):
+			dropSlots.append([])
+			for y in range(boardheight - 1, -1, -1): # start from bottom and move up
+				if board_copy[x][y] == empty_space:
+					pos_monsters = list(range(len(monsters)))
+					for offsetX, offsetY in ((0, -1), (1, 0), (0, 1), (-1, 0)):
+						neighbor = get_gem(board_copy, x + offsetX, y + offsetY)
+						# need to make a get_gem function
+						if neighbor != None and neighbor in pos_monsters:
+							pos_monsters.remove(neighbor)
+					new_monster = random.choice(pos_monsters)
+					board_copy[x][y] = new_monster
+					dropSlots[x].append(new_monster)
+		return dropSlots
+
+
+
+
+
+
+
+
+
 
 
 # To do list!!!
@@ -154,3 +201,16 @@ class Game:
 # Define Gem match
 # Define Gem Disappear
 # Define Gem drop down
+
+if __name__ == "__main__":
+	for i in range(start_x, end_x, 60):
+		pygame.draw.line(screen, black, [i, start_y], [i, end_y])
+		screen.fill(monsters)
+		for j in range(start_y, end_y, 60):
+			pygame.draw.line(screen, black, [start_x, j], [end_x, j])
+
+
+
+
+
+

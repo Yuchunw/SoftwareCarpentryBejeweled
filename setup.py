@@ -3,7 +3,7 @@
 
 # -*- coding: utf-8 -*-
 
-import pygame
+import pygame, random
 
 pygame.init()
 
@@ -33,6 +33,8 @@ end_x = start_x + boardwidth - 1
 end_y = start_y + boardheight - 1
 columns = 8
 rows = 8
+monster_size = 64
+empty_space = -1
 
 # Other parameters
 fps = 60
@@ -41,14 +43,13 @@ font = pygame.font.SysFont('Consolas', 30)
 # offset = 5
 refillspeed = 10
 
-# Set up cells
-monster1 = pygame.image.load('Monster1.png').convert()
-monster2 = pygame.image.load('Monster2.png').convert()
-monster3 = pygame.image.load('Monster3.png').convert()
-monster4 = pygame.image.load('Monster4.png').convert()
-monster5 = pygame.image.load('Monster5.png').convert()
-
-monsters = {0: 'monster1', 1: 'monster2', 2: 'monster3' , 3: 'monster4', 4: 'monster5'}
+# Load the images
+monsters = []
+for i in range(1, 6):
+	monster_image = pygame.image.load('Monster%s.png' % i)
+	if monster_image.get_size() != (monster_size, monster_size):
+		monster_image = pygame.transform.smoothscale(monster_image, (monster_size, monster_size))
+	monsters.append(monster_image)
 
 # Rules for Game
 matchmin = 3
@@ -78,13 +79,15 @@ while not done:
 	clock.tick(1) 
 	
 
-	
+
 	# Draw the grid
 	for i in range(start_x, end_x, 60):
 		pygame.draw.line(screen, black, [i, start_y], [i, end_y])
 	for j in range(start_y, end_y, 60):
 		pygame.draw.line(screen, black, [start_x, j], [end_x, j])
 
+
+	
 	# Update the screen 
 	pygame.display.flip()
 
