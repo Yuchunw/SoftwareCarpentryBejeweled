@@ -31,9 +31,9 @@ class board:
 		self.refill = []
 
 	def generate(self):
-		for i in range(boardwidth):
+		for i in range(self.width):
 			self.board[i] = cell(random.choice.monsters)
-			for j in range(boardheight):
+			for j in range(self.height):
 				self.board[j] = cell(random.choice.monsters)
 
 	def freeze(self):
