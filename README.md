@@ -27,10 +27,10 @@ Write things that confuse or inspire you.
 ## Feel free to add what you think is needed
 
 ## Sound Credit:
-https://www.pond5.com/sound-effects/1/bejeweled.html#1/2080/pricelt:0,bejeweled
-Bejeweled sound effects
+https://www.pond5.com/sound-effects/1/bejeweled.html#1/2080/pricelt:0,bejeweled  
+Bejeweled sound effects  
 Background music: Circus Charlie BGM2 
 
 ## Image Credit:
-Cute monsters - Illustration by Sudowoodo
+Cute monsters - Illustration by Sudowoodo  
 Font: Cantika Cute Handwriting
