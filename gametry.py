@@ -46,6 +46,7 @@ explosion = [pygame.image.load('star{}.png'.format(i)) for i in range(1, 7)]
 
 # # Game sounds
 # # 1 for background; 2 for swipe; 3 for combo; 4 for wrong; 5 for clock 
+pygame.mixer.init()
 Sounds = []
 for i in range(1, 6):
     Sounds.append(pygame.mixer.Sound('Sound%s.wav' % i))
