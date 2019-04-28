@@ -61,11 +61,7 @@ class Board(object):
         	images.append(gemImage)
 
         self.shapes = images
-
-
-
- 
-       
+        self.explosion = [pygame.image.load('star{}.png'.format(i)) for i in range(1, 7)]
         self.background = pygame.image.load("lavender.jpg")
         self.blank = pygame.image.load("lavender.jpg")
         self.w = width
@@ -99,17 +95,24 @@ class Board(object):
         return self.refill or self.matches
 
     def tick(self, dt):
-        """
-        Advance the board by `dt` seconds: move rising blocks (if
-        any); otherwise animate explosions for the matches (if any);
-        otherwise check for matches.
-        """
-        if self.refill:
-            for c in self.refill:
-                c.tick(dt)
-            self.refill = [c for c in self.refill if c.offset > 0]
-            if self.refill:
-                return
+    	if self.refill:
+    		for c in self.refill:
+    			c.tick(dt)
+    		self.refill = [c for c in self.refill if c.offset > 0]
+
+		if self.refill:
+			return
+        elif self.matches:
+          	self.explosion_time += dt
+          	f = int(self.explosion_time * EXPLOSION_SPEED)
+          	if f < len(self.explosion):
+          		self.update_matches(self.explosion[f])
+          		return
+          	self.update_matches(self.blank)
+          	self.refill = list(self.refill_columns())
+        self.explosion_time = 0
+        self.matches = self.find_matches()
+        self.score += len(self.matches) * RANDOM_POINTS
 
 
     def draw(self, display):
@@ -197,7 +200,7 @@ class Game(object):
     """
     def __init__(self):
         pygame.init()
-        pygame.display.set_caption("Bejewelled Clone")
+        pygame.display.set_caption("Little Monsters")
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.board = Board(PUZZLE_COLUMNS, PUZZLE_ROWS)
@@ -254,16 +257,13 @@ class Game(object):
             self.swap()
 
     def swap(self):
-        """
-        Swap the two cells under the cursor and update the player's score.
-        """
-        swap_penalties = int(self.swap_time / DELAY_PENALTY_SECONDS)
-        self.swap_time = 0.0
-        self.board.swap(self.cursor)
-        self.score -= 1 + DELAY_PENALTY_POINTS * swap_penalties
-        self.score += SCORE_TABLE[len(self.board.matches)]
-        for match in self.board.matches:
-            self.score += (len(match) - MINIMUM_MATCH) * EXTRA_LENGTH_POINTS
+    	swap_penalties = int(self.swap_time / DELAY_PENALTY_SECONDS)
+    	self.swap_time = 0.0
+    	self.board.swap(self.cursor)
+    	self.score -= 1 + DELAY_PENALTY_POINTS * swap_penalties
+    	self.score += SCORE_TABLE[len(self.board.matches)]
+    	for match in self.board.matches:
+    		self.score += (len(match) - MINIMUM_MATCH) * EXTRA_LENGTH_POINTS
 
     def draw(self):
         self.board.draw(self.display)
@@ -279,17 +279,17 @@ class Game(object):
         self.display.blit(text, (TEXT_OFFSET, WINDOW_HEIGHT - (FONT_SIZE * 2)))
 
     def draw_score(self):
-        total_score = self.score + self.board.score
+    	total_score = self.score + self.board.score
         text = self.font.render('Score: {}'.format(total_score), True, WHITE)
         self.display.blit(text, (TEXT_OFFSET, WINDOW_HEIGHT - FONT_SIZE))
 
     def draw_cursor(self):
-        topLeft = (MARGIN + self.cursor[0] * SHAPE_WIDTH,
+    	topLeft = (MARGIN + self.cursor[0] * SHAPE_WIDTH,
                    MARGIN + self.cursor[1] * SHAPE_HEIGHT)
-        topRight = (topLeft[0] + SHAPE_WIDTH * 2, topLeft[1])
-        bottomLeft = (topLeft[0], topLeft[1] + SHAPE_HEIGHT)
-        bottomRight = (topRight[0], topRight[1] + SHAPE_HEIGHT)
-        pygame.draw.lines(self.display, WHITE, True,
+    	topRight = (topLeft[0] + SHAPE_WIDTH * 2, topLeft[1])
+    	bottomLeft = (topLeft[0], topLeft[1] + SHAPE_HEIGHT)
+    	bottomRight = (topRight[0], topRight[1] + SHAPE_HEIGHT)
+    	pygame.draw.lines(self.display, WHITE, True,
                           [topLeft, topRight, bottomRight, bottomLeft], 3)
 
 if __name__ == '__main__':
