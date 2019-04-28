@@ -13,18 +13,9 @@ Swap any two adjacent gems to try to match three gems in a row. The matched gems
 2) For bonus score, 4 gems in line equal 5 points, while 5 gems in line equal 10.
 3) Initial game time is 20 seconds.
 4) Game time decreases by 1 second per second.
-5) Game is over when time is run out.
+5) Game is over when time runs out.
 
-## Discussion
 
-Write things that confuse or inspire you.
-
-1) Might need sounds to this game.
-2) Gifs for three gems in line when disappearing
-3) Name for our game, Little Monsters? Happy Monsters? etc..
-4) Are we going to use python 2 or 3?
-
-## Feel free to add what you think is needed
 
 ## Sound Credit:
 Bejeweled sound effects: purchased from audiojungle.net  
