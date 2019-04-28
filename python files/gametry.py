@@ -232,7 +232,7 @@ class Game(object):
         """
         Sounds[0].play()
         self.board.randomize()
-        self.cursor = [0, 0]
+        self.cursor = [0, 3]
         self.score = 0.0
         self.swap_time = 0.0
 
