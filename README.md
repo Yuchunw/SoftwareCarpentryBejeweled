@@ -21,3 +21,7 @@ Background music: Circus Charlie BGM2
 ## Image Credit:
 Cute monsters - Illustration by Sudowoodo  
 Font: Cantika Cute Handwriting
+
+## Code Credit:  
+https://pythonprogramming.net/pygame-button-function-events/
+
