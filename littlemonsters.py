@@ -240,21 +240,18 @@ class Game(object):
             self.board.tick(dt)
 
     def input(self, key):
-        """
-        Respond to the player pressing `key`.
-        """
-        if key == K_q:
-            self.quit()
-        elif key == K_RIGHT and self.cursor[0] < self.board.w - 2:
-            self.cursor[0] += 1
-        elif key == K_LEFT and self.cursor[0] > 0:
-            self.cursor[0] -= 1
-        elif key == K_DOWN and self.cursor[1] < self.board.h - 1:
-            self.cursor[1] += 1
-        elif key == K_UP and self.cursor[1] > 0:
-            self.cursor[1] -= 1
-        elif key == K_SPACE and not self.board.busy():
-            self.swap()
+    	if key == K_q:
+    		self.quit()
+    	elif key == K_RIGHT and self.cursor[0] < self.board.w - 2:
+    		self.cursor[0] += 1
+    	elif key == K_LEFT and self.cursor[0] > 0:
+    		self.cursor[0] -= 1
+    	elif key == K_DOWN and self.cursor[1] < self.board.h - 1:
+    		self.cursor[1] += 1
+    	elif key == K_UP and self.cursor[1] > 0:
+    		self.cursor[1] -= 1
+    	elif key == K_SPACE and not self.board.busy():
+    		self.swap()
 
     def swap(self):
     	swap_penalties = int(self.swap_time / DELAY_PENALTY_SECONDS)
