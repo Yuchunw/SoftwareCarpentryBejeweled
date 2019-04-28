@@ -6,27 +6,27 @@ import os
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-SHAPE_WIDTH = 50               # Width of each shape (pixels).
-SHAPE_HEIGHT = 50              # Height of each shape (pixels).
-PUZZLE_COLUMNS = 6              # Number of columns on the board.
-PUZZLE_ROWS = 12                # Number of rows on the board.
-MARGIN = 2                      # Margin around the board (pixels).
-WINDOW_WIDTH = PUZZLE_COLUMNS * SHAPE_WIDTH + 2 * MARGIN
-WINDOW_HEIGHT = PUZZLE_ROWS * SHAPE_HEIGHT + 2 * MARGIN + 75
-FONT_SIZE = 36
-TEXT_OFFSET = MARGIN + 5
+monster_width = 50               # Width of each shape (pixels).
+monster_height = 50              # Height of each shape (pixels).
+game_columns = 6              # Number of columns on the board.
+game_rows = 12                # Number of rows on the board.
+margin = 2                      # margin around the board (pixels).
+disp_width = game_columns * monster_width + 2 * margin
+disp_height = game_rows * monster_height + 2 * margin + 75
+font_size = 36
+text_offset = margin + 5
 
 # Map from number of matches to points scored.
-SCORE_TABLE = {0: 0, 1: .9, 2: 3, 3: 9, 4: 27}
-MINIMUM_MATCH = 3
-EXTRA_LENGTH_POINTS = .1
-RANDOM_POINTS = .3
+score_points = {0: 0, 1: .9, 2: 3, 3: 9, 4: 27}
+min_match = 3
+extra_points = .1
+random_points = .3
 DELAY_PENALTY_SECONDS = 10
 DELAY_PENALTY_POINTS = .5
 
 FPS = 30
-EXPLOSION_SPEED = 15            # In frames per second.
-REFILL_SPEED = 10               # In cells per second.
+explosion_time = 15            # In frames per second.
+refill_time = 10               # In cells per second.
 
 class Cell(object):
     """
@@ -39,7 +39,7 @@ class Cell(object):
         self.image = image
 
     def tick(self, dt):
-        self.offset = max(0.0, self.offset - dt * REFILL_SPEED)
+        self.offset = max(0.0, self.offset - dt * refill_time)
 
 class Board(object):
     """
@@ -55,10 +55,10 @@ class Board(object):
     def __init__(self, width, height):
     	images = []
     	for i in range(1, 6):
-        	gemImage = pygame.image.load('Monster%s.png' % i)
-        	if gemImage.get_size() != (SHAPE_WIDTH, SHAPE_HEIGHT):
-           		gemImage = pygame.transform.smoothscale(gemImage, (SHAPE_WIDTH, SHAPE_HEIGHT))
-        	images.append(gemImage)
+        	monster_image = pygame.image.load('Monster%s.png' % i)
+        	if monster_image.get_size() != (monster_width, monster_height):
+           		monster_image = pygame.transform.smoothscale(monster_image, (monster_width, monster_height))
+        	images.append(monster_image)
 
         self.shapes = images
         self.explosion = [pygame.image.load('star{}.png'.format(i)) for i in range(1, 7)]
@@ -104,7 +104,7 @@ class Board(object):
 			return
         elif self.matches:
           	self.explosion_time += dt
-          	f = int(self.explosion_time * EXPLOSION_SPEED)
+          	f = int(self.explosion_time * explosion_time)
           	if f < len(self.explosion):
           		self.update_matches(self.explosion[f])
           		return
@@ -112,7 +112,7 @@ class Board(object):
           	self.refill = list(self.refill_columns())
         self.explosion_time = 0
         self.matches = self.find_matches()
-        self.score += len(self.matches) * RANDOM_POINTS
+        self.score += len(self.matches) * random_points
 
 
     def draw(self, display):
@@ -122,8 +122,8 @@ class Board(object):
         display.blit(self.background, (0, 0))
         for i, c in enumerate(self.board):
             display.blit(c.image,
-                         (MARGIN + SHAPE_WIDTH * (i % self.w),
-                          MARGIN + SHAPE_HEIGHT * (i // self.w - c.offset)))
+                         (margin + monster_width * (i % self.w),
+                          margin + monster_height * (i // self.w - c.offset)))
 
     def swap(self, cursor):
         """
@@ -152,7 +152,7 @@ class Board(object):
             for line in lines():
                 for _, group in itertools.groupby(line, key):
                     match = list(group)
-                    if len(match) >= MINIMUM_MATCH:
+                    if len(match) >= min_match:
                         yield match
         return list(matches())
 
@@ -202,9 +202,9 @@ class Game(object):
         pygame.init()
         pygame.display.set_caption("Little Monsters")
         self.clock = pygame.time.Clock()
-        self.display = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.board = Board(PUZZLE_COLUMNS, PUZZLE_ROWS)
-        self.font = pygame.font.Font(None, FONT_SIZE)
+        self.display = pygame.display.set_mode((disp_width, disp_height))
+        self.board = Board(game_columns, game_rows)
+        self.font = pygame.font.Font(None, font_size)
 
     def start(self):
         """
@@ -258,9 +258,9 @@ class Game(object):
     	self.swap_time = 0.0
     	self.board.swap(self.cursor)
     	self.score -= 1 + DELAY_PENALTY_POINTS * swap_penalties
-    	self.score += SCORE_TABLE[len(self.board.matches)]
+    	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
-    		self.score += (len(match) - MINIMUM_MATCH) * EXTRA_LENGTH_POINTS
+    		self.score += (len(match) - min_match) * extra_points
 
     def draw(self):
         self.board.draw(self.display)
@@ -273,19 +273,19 @@ class Game(object):
         s = int(self.swap_time)
         text = self.font.render('Move Timer: {}:{:02}'.format(s / 60, s % 60),
                                 True, WHITE)
-        self.display.blit(text, (TEXT_OFFSET, WINDOW_HEIGHT - (FONT_SIZE * 2)))
+        self.display.blit(text, (text_offset, disp_height - (font_size * 2)))
 
     def draw_score(self):
     	total_score = self.score + self.board.score
         text = self.font.render('Score: {}'.format(total_score), True, WHITE)
-        self.display.blit(text, (TEXT_OFFSET, WINDOW_HEIGHT - FONT_SIZE))
+        self.display.blit(text, (text_offset, disp_height - font_size))
 
     def draw_cursor(self):
-    	topLeft = (MARGIN + self.cursor[0] * SHAPE_WIDTH,
-                   MARGIN + self.cursor[1] * SHAPE_HEIGHT)
-    	topRight = (topLeft[0] + SHAPE_WIDTH * 2, topLeft[1])
-    	bottomLeft = (topLeft[0], topLeft[1] + SHAPE_HEIGHT)
-    	bottomRight = (topRight[0], topRight[1] + SHAPE_HEIGHT)
+    	topLeft = (margin + self.cursor[0] * monster_width,
+                   margin + self.cursor[1] * monster_height)
+    	topRight = (topLeft[0] + monster_width * 2, topLeft[1])
+    	bottomLeft = (topLeft[0], topLeft[1] + monster_height)
+    	bottomRight = (topRight[0], topRight[1] + monster_height)
     	pygame.draw.lines(self.display, WHITE, True,
                           [topLeft, topRight, bottomRight, bottomLeft], 3)
 
