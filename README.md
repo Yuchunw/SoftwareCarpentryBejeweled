@@ -1,7 +1,6 @@
 # Little Monsters
 
-This is the final project for Software Carpentry. ( An interesting game name WANTED! :))
-
+This is the final project for Software Carpentry. This is a tile-matching puzzle video game like Bejeweled and Candycrush, but instead of jewels we have cute monsters.  
 
 ## Description 
 
@@ -14,8 +13,6 @@ Swap any two adjacent gems to try to match three gems in a row. The matched gems
 3) Initial game time is 20 seconds.
 4) Game time decreases by 1 second per second.
 5) Game is over when time runs out.
-
-
 
 ## Sound Credit:
 Bejeweled sound effects: purchased from audiojungle.net  
