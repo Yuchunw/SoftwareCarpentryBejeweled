@@ -9,10 +9,10 @@ BLACK = (0, 0, 0)
 monster_width = 50               # Width of each shape (pixels).
 monster_height = 50              # Height of each shape (pixels).
 game_columns = 8              # Number of columns on the board.
-game_rows = 8                # Number of rows on the board.
-margin = 2                      # margin around the board (pixels).
-disp_width = game_columns * monster_width + 2 * margin + 80
-disp_height = game_rows * monster_height + 2 * margin + 400
+game_rows = 8               # Number of rows on the board.
+margin = 50                 # margin around the board (pixels).
+disp_width = game_columns * monster_width + 2 * margin
+disp_height = game_rows * monster_height + 2 * margin + 150
 font_size = 36
 text_offset = margin + 5
 
@@ -137,11 +137,11 @@ class Board(object):
         """
         Draw the board on the pygame surface `display`.
         """
-        display.blit(self.background, (0, 0))
+        display.blit(self.background, (0,0))
         for i, c in enumerate(self.board):
             display.blit(c.image,
-                         (margin + monster_width * (i % self.w),
-                          margin + monster_height * (i // self.w - c.offset)))
+                         (50 + monster_width * (i % self.w),
+                           200 + monster_height * (i // self.w - c.offset)))
 
     def swap(self, cursor):
         """
@@ -292,14 +292,14 @@ class Game(object):
 
     def draw_time(self):
         s = int(self.swap_time)
-        text = self.font.render('Move Timer: {}:{:02}'.format(s / 60, s % 60),
-                                True, WHITE)
-        self.display.blit(text, (text_offset, disp_height - (font_size * 2)))
+        text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
+                                True, BLACK)
+        self.display.blit(text, (400, 115))
 
     def draw_score(self):
     	total_score = self.score + self.board.score
-        text = self.font.render('Score: {}'.format(total_score), True, WHITE)
-        self.display.blit(text, (text_offset, disp_height - font_size))
+        text = self.font.render('{}'.format(total_score), True, BLACK)
+        self.display.blit(text, (135, 115))
 
     def draw_cursor(self):
     	topLeft = (margin + self.cursor[0] * monster_width,
@@ -307,7 +307,7 @@ class Game(object):
     	topRight = (topLeft[0] + monster_width * 2, topLeft[1])
     	bottomLeft = (topLeft[0], topLeft[1] + monster_height)
     	bottomRight = (topRight[0], topRight[1] + monster_height)
-    	pygame.draw.lines(self.display, WHITE, True,
+    	pygame.draw.lines(self.display, BLACK, True,
                           [topLeft, topRight, bottomRight, bottomLeft], 3)
 
 if __name__ == '__main__':
