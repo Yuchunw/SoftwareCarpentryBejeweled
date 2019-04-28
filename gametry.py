@@ -8,11 +8,11 @@ BLACK = (0, 0, 0)
 
 monster_width = 50               # Width of each shape (pixels).
 monster_height = 50              # Height of each shape (pixels).
-game_columns = 6              # Number of columns on the board.
-game_rows = 12                # Number of rows on the board.
+game_columns = 8              # Number of columns on the board.
+game_rows = 8                # Number of rows on the board.
 margin = 2                      # margin around the board (pixels).
-disp_width = game_columns * monster_width + 2 * margin
-disp_height = game_rows * monster_height + 2 * margin + 75
+disp_width = game_columns * monster_width + 2 * margin + 80
+disp_height = game_rows * monster_height + 2 * margin + 400
 font_size = 36
 text_offset = margin + 5
 
@@ -27,6 +27,28 @@ DELAY_PENALTY_POINTS = .5
 FPS = 30
 explosion_time = 15            # In frames per second.
 refill_time = 10               # In cells per second.
+
+# Load the background image
+background = pygame.image.load('Gameboard.png')
+if background.get_size() != (disp_width, disp_height):
+          background = pygame.transform.smoothscale(background, (disp_width, disp_height))
+# Load the monsters image
+monsters = []
+for i in range(1, 6):
+  monster_image = pygame.image.load('Monster%s.png' % i)
+  if monster_image.get_size() != (monster_width, monster_height):
+          monster_image = pygame.transform.smoothscale(monster_image, (monster_width, monster_height))
+  monsters.append(monster_image)
+# Load the blank image
+blank = pygame.image.load('lavender.jpg')
+# Load the image of explosion
+explosion = [pygame.image.load('star{}.png'.format(i)) for i in range(1, 7)]
+
+# # Game sounds
+# # 1 for background; 2 for swipe; 3 for combo; 4 for wrong; 5 for clock 
+Sounds = []
+for i in range(1, 6):
+    Sounds.append(pygame.mixer.Sound('Sound%s.wav' % i))
 
 class Cell(object):
     """
@@ -53,17 +75,11 @@ class Board(object):
     `score` -- score due to chain reactions.
     """
     def __init__(self, width, height):
-    	images = []
-    	for i in range(1, 6):
-        	monster_image = pygame.image.load('Monster%s.png' % i)
-        	if monster_image.get_size() != (monster_width, monster_height):
-           		monster_image = pygame.transform.smoothscale(monster_image, (monster_width, monster_height))
-        	images.append(monster_image)
 
-        self.shapes = images
-        self.explosion = [pygame.image.load('star{}.png'.format(i)) for i in range(1, 7)]
-        self.background = pygame.image.load("lavender.jpg")
-        self.blank = pygame.image.load("lavender.jpg")
+        self.monsters = monsters
+        self.explosion = explosion
+        self.background = background
+        self.blank = blank
         self.w = width
         self.h = height
         self.size = width * height
@@ -74,10 +90,10 @@ class Board(object):
 
     def randomize(self):
         """
-        Replace the entire board with fresh shapes.
+        Replace the entire board with fresh monsters.
         """
         for i in range(self.size):
-            self.board[i] = Cell(random.choice(self.shapes))
+            self.board[i] = Cell(random.choice(self.monsters))
 
     def pos(self, i, j):
         """
@@ -101,7 +117,7 @@ class Board(object):
     		self.refill = [c for c in self.refill if c.offset > 0]
 
 		if self.refill:
-			return
+		    return
         elif self.matches:
           	self.explosion_time += dt
           	f = int(self.explosion_time * explosion_time)
@@ -113,6 +129,7 @@ class Board(object):
         self.explosion_time = 0
         self.matches = self.find_matches()
         self.score += len(self.matches) * random_points
+        
 
 
     def draw(self, display):
@@ -134,6 +151,8 @@ class Board(object):
         b = self.board
         b[i], b[i+1] = b[i+1], b[i]
         self.matches = self.find_matches()
+        while True:
+            Sounds[1].play()
 
     def find_matches(self):
         """
@@ -182,7 +201,7 @@ class Board(object):
             offset = 1 + (target - pos) // self.w
             for pos in range(target, -1, -self.w):
                 c = self.board[pos]
-                c.image = random.choice(self.shapes)
+                c.image = random.choice(self.monsters)
                 c.offset = offset
                 yield c
 
@@ -210,6 +229,7 @@ class Game(object):
         """
         Start a new game with a random board.
         """
+        Sounds[0].play()
         self.board.randomize()
         self.cursor = [0, 0]
         self.score = 0.0
@@ -291,6 +311,4 @@ class Game(object):
 
 if __name__ == '__main__':
     Game().play()
-
-
 
