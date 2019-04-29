@@ -4,7 +4,7 @@ This is the final project for Software Carpentry. This is a tile-matching puzzle
 
 ## Description 
 
-Swap any two adjacent gems to try to match three gems in a row. The matched gems then disappear, making way for new gems to fall from the top. Matching more than three gems, or causing a chain reaction of gem matches will result in more points. The player’s score slowly drops over time, so the player must constantly be making new matches. The game ends when no possible match can be made on the board.
+Swap two adjacent gems left or right to try to match three gems in a row. The matched gems then disappear, making way for new gems to fall from the top. Matching more than three gems, or causing a chain reaction of gem matches will result in more points. The player’s score slowly drops over time, so the player must constantly be making new matches. The game ends when no possible match can be made on the board.
 
 ## Rules
 
@@ -12,7 +12,7 @@ Swap any two adjacent gems to try to match three gems in a row. The matched gems
 2) For bonus score, 4 gems in line equal 5 points, while 5 gems in line equal 10.
 3) Initial game time is 20 seconds.
 4) Game time decreases by 1 second per second.
-5) Game is over when time runs out.
+5) Game is over when the user quits.
 
 ## Sound Credit:
 Bejeweled sound effects: purchased from audiojungle.net  
