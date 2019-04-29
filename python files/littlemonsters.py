@@ -1,3 +1,10 @@
+"""
+This is a bejewelled like game made for our final project in
+Software Carpentry. The game is called "Little Monsters." 
+Authors: Joan Golding, Sicong, and Yuchun Wang 
+Date: 4/29/2019
+"""
+
 import pygame, random, time, sys
 from pygame.locals import *
 import itertools
@@ -17,12 +24,12 @@ font_size = 36
 text_offset = margin + 5
 
 # Map from number of matches to points scored.
-score_points = {0: 0, 1: .9, 2: 3, 3: 9, 4: 27}
+score_points = {0: 0, 1: 0.9, 2: 3, 3: 9, 4: 27}
 min_match = 3
-extra_points = .1
-random_points = .3
-DELAY_PENALTY_SECONDS = 10
-DELAY_PENALTY_POINTS = .5
+extra_points = 0.5
+random_points = .5
+DELAY_PENALTY_SECONDS = 2
+DELAY_PENALTY_POINTS = 0.1 
 
 FPS = 30
 explosion_time = 15            # In frames per second.
@@ -63,7 +70,8 @@ class Board(object):
     `score` -- score due to chain reactions.
     """
     def __init__(self, width, height):
-    	images = []
+    	# Load the monster images
+        images = []
     	for i in range(1, 6):
         	monster_image = pygame.image.load('Monster%s.png' % i)
         	if monster_image.get_size() != (monster_width, monster_height):
@@ -72,6 +80,7 @@ class Board(object):
 
         self.shapes = images
         self.explosion = [pygame.image.load('star{}.png'.format(i)) for i in range(1, 7)]
+        # transform the background to fit the disp_width and disp_height
         self.background = pygame.transform.smoothscale(background_image, (disp_width, disp_height))
         self.blank = pygame.image.load("Gameboard.png")
         self.w = width
@@ -84,14 +93,14 @@ class Board(object):
 
     def randomize(self):
         """
-        Replace the entire board with fresh shapes.
+        Place random monsters on the board. 
         """
         for i in range(self.size):
             self.board[i] = Cell(random.choice(self.shapes))
 
     def pos(self, i, j):
         """
-        Return the index of the cell at position (i, j).
+        Find the position of cells at points (i, j)
         """
         assert(0 <= i < self.w)
         assert(0 <= j < self.h)
@@ -99,8 +108,8 @@ class Board(object):
 
     def busy(self):
         """
-        Return `True` if the board is busy animating an explosion or a
-        refill and so no further swaps should be permitted.
+       `True` if the board is busy animating the stars or refilling
+        and so the player can't swap.
         """
         return self.refill or self.matches
 
@@ -137,9 +146,10 @@ class Board(object):
 
     def swap(self, cursor):
         """
-        Swap the two board cells covered by `cursor` and update the
+        Swap the two monster images (cells) covered by `cursor` and update the
         matches.
         """
+
         i = self.pos(*cursor)
         b = self.board
         b[i], b[i+1] = b[i+1], b[i]
@@ -177,9 +187,8 @@ class Board(object):
 
     def refill_columns(self):
         """
-        Move cells downwards in columns to fill blank cells, and
-        create new cells as necessary so that each column is full. Set
-        appropriate offsets for the cells to animate into place.
+        Move more monster images into the appropriate cells 
+        when they leave after a match.
         """
         for i in range(self.w):
             target = self.size - i - 1
@@ -224,7 +233,7 @@ class Game(object):
         self.board.randomize()
         self.cursor = [0, 0]
         self.score = 0.0
-        self.swap_time = 0.0
+        self.swap_time = 20
 
     def quit(self):
         """
@@ -235,22 +244,28 @@ class Game(object):
 
     def play(self):
         """
-        Play a game: repeatedly tick, draw and respond to input until
-        the QUIT event is received.
+        Play a game: tick and swap until the user quits. 
         """
         self.start()
         while True:
             self.draw()
             dt = min(self.clock.tick(FPS) / 1000.0, 1.0 / FPS)
-            self.swap_time += dt
+            self.swap_time -= dt
             for event in pygame.event.get():
                 if event.type == KEYUP:
                     self.input(event.key)
                 elif event.type == QUIT:
                     self.quit()
+            if self.clock == 0:
+                self.quit()
+
             self.board.tick(dt)
 
     def input(self, key):
+        """
+        User inputs on the keyboard to move the curser. 
+        Press the space bar to swap monsters. 
+        """
     	if key == K_q:
     		self.quit()
     	elif key == K_RIGHT and self.cursor[0] < self.board.w - 2:
@@ -262,20 +277,25 @@ class Game(object):
     	elif key == K_UP and self.cursor[1] > 0:
     		self.cursor[1] -= 1
     	elif key == K_SPACE and not self.board.busy():
-    		self.swap()
+                self.swap()
 
     def swap(self):
+        """
+        Swap two monsters and add to the score. If no swaps are made in a
+        certain amount of time, deduct the delay penalty. 
+        """
     	swap_penalties = int(self.swap_time / DELAY_PENALTY_SECONDS)
-    	self.swap_time = 0.0
-        if match(self.cursor) == True:
-    	   self.board.swap(self.cursor)
-
+    	self.swap_time = 20
+    	self.board.swap(self.cursor)
     	self.score -= 1 + DELAY_PENALTY_POINTS * swap_penalties
     	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
     		self.score += (len(match) - min_match) * extra_points
 
     def draw(self):
+        """
+        Create the board on the pygame surface "display"
+        """
         self.board.draw(self.display)
         self.draw_score()
         self.draw_time()
