@@ -232,7 +232,7 @@ class Game(object):
         """
         Sounds[0].play()
         self.board.randomize()
-        self.cursor = [0, 3]
+        self.cursor = [0, 0]
         self.score = 0.0
         self.swap_time = 0.0
 
@@ -302,8 +302,8 @@ class Game(object):
         self.display.blit(text, (135, 115))
 
     def draw_cursor(self):
-    	topLeft = (margin + self.cursor[0] * monster_width,
-                   margin + self.cursor[1] * monster_height)
+    	topLeft = (50 + self.cursor[0] * monster_width,
+                   200 + self.cursor[1] * monster_height)
     	topRight = (topLeft[0] + monster_width * 2, topLeft[1])
     	bottomLeft = (topLeft[0], topLeft[1] + monster_height)
     	bottomRight = (topRight[0], topRight[1] + monster_height)
