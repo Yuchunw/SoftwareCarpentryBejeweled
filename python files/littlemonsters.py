@@ -267,7 +267,9 @@ class Game(object):
     def swap(self):
     	swap_penalties = int(self.swap_time / DELAY_PENALTY_SECONDS)
     	self.swap_time = 0.0
-    	self.board.swap(self.cursor)
+        if match(self.cursor) == True:
+    	   self.board.swap(self.cursor)
+
     	self.score -= 1 + DELAY_PENALTY_POINTS * swap_penalties
     	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
