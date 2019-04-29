@@ -5,7 +5,7 @@ This is the final project for Software Carpentry. This is a tile-matching puzzle
 
 ## Description 
 
-Swap two adjacent gems left or right to try to match three gems in a row. The matched gems then disappear, making way for new gems to fall from the top. Matching more than three gems, or causing a chain reaction of gem matches will result in more points. The player’s score slowly drops over time, so the player must constantly be making new matches. The game ends when no possible match can be made on the board.
+Swap two adjacent gems left or right to try to match three gems in a row. The matched gems then disappear, making way for new gems to fall from the top. Matching more than three gems, or causing a chain reaction of gem matches will result in more points. The player’s score slowly drops over time, so the player must constantly be making new matches. The game ends when the user quits or the time runs out. You can move any monster, not just those that make a match.
 
 
 ## Rules
