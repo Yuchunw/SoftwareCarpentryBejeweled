@@ -10,9 +10,9 @@ Swap two adjacent gems left or right to try to match three gems in a row. The ma
 
 1) For basic score, 1 point for 1 disappeared gem
 2) For bonus score, 4 gems in line equal 5 points, while 5 gems in line equal 10.
-3) The game time goes back to 0 everytime you make a match. 
-4) Game time increases by 1 second per second.
-5) Game is over when the user quits.
+3) The game time starts at 20 but you gain time when you make a match. 
+4) Game time decreases by 1 second.
+5) Game is over when the user quits or the time gets to 0.
 
 ## Sound Credit:
 Bejeweled sound effects: purchased from audiojungle.net  
