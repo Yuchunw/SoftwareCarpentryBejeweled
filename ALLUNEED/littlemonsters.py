@@ -226,7 +226,7 @@ class Game(object):
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode((disp_width, disp_height))
         self.board = Board(game_columns, game_rows)
-        self.font = pygame.font.Font('CantikaHandwriting.otf', font_size)
+        self.font = pygame.font.Font(None, font_size)
 
     def start(self):
         """
@@ -283,6 +283,7 @@ class Game(object):
     	elif key == K_SPACE and not self.board.busy():
                 self.swap()
 
+
     def swap(self):
         """
         Swap two monsters and add to the score. If no swaps are made in a
@@ -294,6 +295,10 @@ class Game(object):
     	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
     		self.score += (len(match) - min_match) * extra_points
+    		
+    		if len(match) >= min_match:
+    				Sounds[2].play()
+
 
     def draw(self):
         """
@@ -310,6 +315,11 @@ class Game(object):
         text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
                                 True, BLACK)
         self.display.blit(text, (400, 115))
+    
+        if s <= 5:
+        	Sounds[4].play()
+
+
 
         # If the time reaches zero, the game auto quits 
         if s <= 0:
