@@ -12,6 +12,8 @@ import os
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+green = (173, 186, 70)
+blue = (128, 193, 195)
 
 monster_width = 50
 monster_height = 50
@@ -164,7 +166,7 @@ class Game(object):
 		self.clock = pygame.time.Clock()
 		self.display = pygame.display.set_mode((disp_width, disp_height))
 		self.board = Board(game_columns, game_rows)
-		self.font = pygame.font.Font(None, font_size)
+		self.font = pygame.font.Font('CantikaHandwriting.otf', font_size)
 
 	def start(self):
 		Sounds[0].play()
@@ -228,8 +230,8 @@ class Game(object):
 	def draw_time(self):
 		s = int(self.swap_time)
 		text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
-								True, BLACK)
-		self.display.blit(text, (400, 115))
+								True, blue)
+		self.display.blit(text, (400, 107))
 		if s <= 5:
 			Sounds[4].play()
 
@@ -239,8 +241,8 @@ class Game(object):
 	
 	def draw_score(self):
 		total_score = self.score + self.board.score
-		text = self.font.render('{}'.format(total_score), True, BLACK)
-		self.display.blit(text, (135, 115))
+		text = self.font.render('{}'.format(total_score), True, green)
+		self.display.blit(text, (135, 107))
 
 	def draw_cursor(self):
 		topLeft = (50 + self.cursor[0] * monster_width,
