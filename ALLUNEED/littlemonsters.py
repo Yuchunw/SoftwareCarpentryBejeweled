@@ -12,9 +12,6 @@ import os
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-green = (173, 186, 70)
-lightgreen = (243, 246, 221)
-blue = (128, 193, 195)
 
 monster_width = 50               # Width of each shape (pixels).
 monster_height = 50              # Height of each shape (pixels).
@@ -38,6 +35,9 @@ explosion_time = 15            # In frames per second.
 refill_time = 10               # In cells per second.
 
 background_image = pygame.image.load("Gameboard.png")
+game_over_image = pygame.image.load("Gameover.png")
+
+
 
 # # Game sounds
 # # 1 for background; 2 for swipe; 3 for combo; 4 for wrong; 5 for clock 
@@ -151,12 +151,12 @@ class Board(object):
         Swap the two monster images (cells) covered by `cursor` and update the
         matches.
         """
-	Sounds[1].play()
+
         i = self.pos(*cursor)
         b = self.board
         b[i], b[i+1] = b[i+1], b[i]
         self.matches = self.find_matches()
-        
+        Sounds[1].play()
 
     def find_matches(self):
         """
@@ -232,7 +232,7 @@ class Game(object):
         """
         Start a new game with a random board.
         """
-	Sounds[0].play()
+        Sounds[0].play()
         self.board.randomize()
         self.cursor = [0, 0]
         self.score = 0.0
@@ -252,10 +252,11 @@ class Game(object):
         self.start()
         while True:
             self.draw()
-            dt = min(self.clock.tick(FPS) / 1000.0, 1.0 / FPS)
-    
-            self.swap_time -= dt
-
+            if self.swap_time != 0:
+            	dt = min(self.clock.tick(FPS) / 1000.0, 1.0 / FPS)
+            	self.swap_time -= dt
+            else:
+            	self.swap_time = 0 
             for event in pygame.event.get():
                 if event.type == KEYUP:
                     self.input(event.key)
@@ -288,7 +289,7 @@ class Game(object):
         certain amount of time, deduct the delay penalty. 
         """
     	
-    	self.swap_time = 20
+    	self.swap_time += 5
     	self.board.swap(self.cursor)
     	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
@@ -307,13 +308,19 @@ class Game(object):
     def draw_time(self):
         s = int(self.swap_time)
         text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
-                                True, blue)
-        self.display.blit(text, (400, 107))
+                                True, BLACK)
+        self.display.blit(text, (400, 115))
+
+        # If the time reaches zero, the game auto quits 
+        if s <= 0:
+        	self.display.blit(self.board.background, (0,0))
+        	self.display.blit(game_over_image, (100, 400))
+        	
 
     def draw_score(self):
     	total_score = self.score + self.board.score
-        text = self.font.render('{}'.format(total_score), True, green)
-        self.display.blit(text, (135, 107))
+        text = self.font.render('{}'.format(total_score), True, BLACK)
+        self.display.blit(text, (135, 115))
 
     def draw_cursor(self):
     	topLeft = (50 + self.cursor[0] * monster_width,
