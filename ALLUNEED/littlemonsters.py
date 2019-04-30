@@ -308,12 +308,12 @@ class Game(object):
         s = int(self.swap_time)
         text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
                                 True, blue)
-        self.display.blit(text, (400, 110))
+        self.display.blit(text, (400, 107))
 
     def draw_score(self):
     	total_score = self.score + self.board.score
         text = self.font.render('{}'.format(total_score), True, green)
-        self.display.blit(text, (135, 110))
+        self.display.blit(text, (135, 107))
 
     def draw_cursor(self):
     	topLeft = (50 + self.cursor[0] * monster_width,
