@@ -13,8 +13,8 @@ Download everything in the folder "ALLUNEED" and run the littlemonsters.py file
 
 ## Rules
 
-1) For basic score, 1 point for 1 disappeared gem
-2) For bonus score, 4 gems in line equal 5 points, while 5 gems in line equal 10.
+1) For basic score (3 gems), 1 point for 1 disappeared gem
+2) For bonus score, you get 0.1 points for getting more than 3 gems matched
 3) The game time starts at 20 but you gain time when you make a match. 
 4) Game time decreases by 1 second.
 5) Game is over when the user quits or the time gets to 0.
