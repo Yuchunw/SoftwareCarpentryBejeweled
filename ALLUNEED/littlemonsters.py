@@ -151,12 +151,12 @@ class Board(object):
         Swap the two monster images (cells) covered by `cursor` and update the
         matches.
         """
-
+	Sounds[1].play()
         i = self.pos(*cursor)
         b = self.board
         b[i], b[i+1] = b[i+1], b[i]
         self.matches = self.find_matches()
-        Sounds[1].play()
+        
 
     def find_matches(self):
         """
