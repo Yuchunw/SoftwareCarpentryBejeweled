@@ -251,7 +251,6 @@ class Game(object):
             dt = min(self.clock.tick(FPS) / 1000.0, 1.0 / FPS)
     
             self.swap_time -= dt
-
             for event in pygame.event.get():
                 if event.type == KEYUP:
                     self.input(event.key)
@@ -284,7 +283,7 @@ class Game(object):
         certain amount of time, deduct the delay penalty. 
         """
     	
-    	self.swap_time = 20
+    	self.swap_time += 5
     	self.board.swap(self.cursor)
     	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
@@ -305,6 +304,17 @@ class Game(object):
         text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
                                 True, BLACK)
         self.display.blit(text, (400, 115))
+
+        # If the time reaches zero, the game auto quits 
+        if s == 0:
+        	self.quit()
+        	print 'GAME OVER'
+        	
+
+
+
+
+
 
     def draw_score(self):
     	total_score = self.score + self.board.score
