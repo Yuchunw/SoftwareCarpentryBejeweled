@@ -232,6 +232,7 @@ class Game(object):
         """
         Start a new game with a random board.
         """
+	Sounds[0].play()
         self.board.randomize()
         self.cursor = [0, 0]
         self.score = 0.0
@@ -307,12 +308,12 @@ class Game(object):
         s = int(self.swap_time)
         text = self.font.render('{}:{:02}'.format(s / 60, s % 60),
                                 True, blue)
-        self.display.blit(text, (400, 115))
+        self.display.blit(text, (400, 110))
 
     def draw_score(self):
     	total_score = self.score + self.board.score
         text = self.font.render('{}'.format(total_score), True, green)
-        self.display.blit(text, (135, 115))
+        self.display.blit(text, (135, 110))
 
     def draw_cursor(self):
     	topLeft = (50 + self.cursor[0] * monster_width,
