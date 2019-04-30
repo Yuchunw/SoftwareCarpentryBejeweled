@@ -26,10 +26,9 @@ text_offset = margin + 5
 # Map from number of matches to points scored.
 score_points = {0: 0, 1: 0.9, 2: 3, 3: 9, 4: 27}
 min_match = 3
-extra_points = 0.5
-random_points = .5
-DELAY_PENALTY_SECONDS = 2
-DELAY_PENALTY_POINTS = 0.1 
+extra_points = 0.1
+random_points = .3
+
 
 FPS = 30
 explosion_time = 15            # In frames per second.
@@ -250,14 +249,14 @@ class Game(object):
         while True:
             self.draw()
             dt = min(self.clock.tick(FPS) / 1000.0, 1.0 / FPS)
+    
             self.swap_time -= dt
+
             for event in pygame.event.get():
                 if event.type == KEYUP:
                     self.input(event.key)
                 elif event.type == QUIT:
                     self.quit()
-            if self.clock == 0:
-                self.quit()
 
             self.board.tick(dt)
 
@@ -284,10 +283,9 @@ class Game(object):
         Swap two monsters and add to the score. If no swaps are made in a
         certain amount of time, deduct the delay penalty. 
         """
-    	swap_penalties = int(self.swap_time / DELAY_PENALTY_SECONDS)
+    	
     	self.swap_time = 20
     	self.board.swap(self.cursor)
-    	self.score -= 1 + DELAY_PENALTY_POINTS * swap_penalties
     	self.score += score_points[len(self.board.matches)]
     	for match in self.board.matches:
     		self.score += (len(match) - min_match) * extra_points
