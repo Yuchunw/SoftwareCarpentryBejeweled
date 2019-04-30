@@ -171,7 +171,7 @@ class Board(object):
 
 		if self.matches == None:
 			Sounds[3].play()
-			b[i], b[i+1] = b[i+1], b[i]
+			b[i], b[i-1] = b[i-1], b[i]
 		else:
 			Sounds[1].play()
 
